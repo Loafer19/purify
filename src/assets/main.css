@@ -1,31 +1,13 @@
 body {
   margin: 0;
+  padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
+  background: #222;
 }
 
-#app {
-  width: 450px;
-  height: 500px;
-  padding: 1rem;
-  background: #414141;
-}
-
-header nav {
-  display: flex;
-  justify-content: space-around;
-}
-
-header nav a {
-  padding: 0.8rem 1.4rem;
-  background: gray;
+main {
+  padding: 2rem;
+  background: #333;
   border-radius: 1rem;
-  font-size: 2rem;
-  color: white;
-  text-decoration: none;
-}
-
-header nav a:hover,
-.router-link-active {
-  box-shadow: 5px 5px;
 }

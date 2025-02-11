@@ -1,6 +1,6 @@
-# Vue Browser Template
+# Purify - bring clarity for websites
 
-This template should help get you started developing good browser extension with vue
+Purify is a browser extension that helps you to focus on the content you are reading by removing all the distractions
 
 ## Project Setup
 

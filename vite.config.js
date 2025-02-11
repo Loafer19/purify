@@ -8,7 +8,6 @@ function generateManifest() {
   const pkg = readJsonFile('package.json')
 
   return {
-    name: pkg.name,
     description: pkg.description,
     version: pkg.version,
     ...manifest

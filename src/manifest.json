@@ -1,20 +1,29 @@
 {
   "action": {
-    "default_popup": "index.html"
+    "default_popup": "src/pop-up/index.html"
   },
-  "background": {
-    "scripts": [
-      "src/background.js"
-    ],
-    "service_worker": "src/background.js"
-  },
+  "content_scripts": [
+    {
+      "js": [
+        "src/content-scripts/main.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
   "icons": {
     "128": "icons/logo.png",
     "48": "icons/logo.png"
   },
   "manifest_version": 3,
+  "name": "Purify - bring clarity for websites",
   "options_ui": {
     "open_in_tab": true,
-    "page": "src/options.html"
-  }
+    "page": "src/options/index.html"
+  },
+  "permissions": [
+    "activeTab",
+    "storage"
+  ]
 }
