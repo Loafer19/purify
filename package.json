@@ -2,7 +2,7 @@
   "dependencies": {
     "vue": "^3.5.13"
   },
-  "description": "A web extension that brings clarity to websites",
+  "description": "Web extension that brings clarity to websites",
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
     "eslint": "^9.17.0",
@@ -16,5 +16,5 @@
     "dev": "vite"
   },
   "type": "module",
-  "version": "0.5.0"
+  "version": "0.6.0"
 }

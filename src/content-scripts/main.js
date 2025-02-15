@@ -1,20 +1,26 @@
 import settings from '@/services/settings.js'
 
 const url = window.location.hostname
+const site = settings.sites[url]
 
 console.log('Site to Purify:', url)
 
-if (settings.sites[url]?.enabled) {
-  Object.entries(settings.sites[url].options).forEach(([key, value]) => {
+chrome.storage.sync.get('modifications').then((data) => {
+  const modifications = data.modifications || {}
 
-    if (value.enabled) {
-      console.log('Applying option:', key)
+  if (!(site.key in modifications) || modifications[site.key]) {
+    Object.entries(site.options).forEach(([key, option]) => {
+      key = site.key +':'+ key
 
-      try {
-        value.code()
-      } catch (error) {
-        console.error('Error:', error)
+      if (!(key in modifications) || modifications[key]) {
+        console.log('Applying option:', option.name)
+  
+        try {
+          option.code()
+        } catch (error) {
+          console.error('Error:', error)
+        }
       }
-    }
-  })
-}
+    })
+  }
+})

@@ -1,6 +1,6 @@
 # Purify - bringing clarity to websites
 
-![Purify](./public/icons/logo.png)
+![Purify](./public/logo.png)
 
 Purify is a browser extension that helps you to focus on the content you are reading by removing all the distractions
 
@@ -15,11 +15,22 @@ several sites have already been optimized for a minimalist experience
 
 #### chess.com
 
-- ads are removed
+- removed ads
 
-![chess.com](./public/screenshots/chess.com.jpg)
+![chess.com](./.github/screenshots/chess.com.jpg)
 
 #### youtube.com
+
+- removed useless blocks and few buttons
+
+![youtube.com](./.github/screenshots/youtube.com.jpg)
+
+#### x.com
+
+- removed useless buttons
+
+![x.com](./.github/screenshots/x.com.jpg)
+
 
 ## Project Setup
 

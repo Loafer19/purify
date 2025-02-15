@@ -1,5 +1,5 @@
 import '@/assets/main.css'
-import PopUp from '@/pages/PopUp.vue'
+import PopUp from '@/pop-up/App.vue'
 import { createApp } from 'vue'
 
 createApp(PopUp)
