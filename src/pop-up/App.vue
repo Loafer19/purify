@@ -30,17 +30,23 @@ const changeSetting = (event, key) => {
             {{ site.name }}
           </label>
         </li>
-        <ul v-if="!(site.key in modifications) || modifications[site.key]">
-          <li class="option" v-for="(option, key) in site.options" :key="key">
-            <label>
-              <input type="checkbox"
-                :checked="!(site.key + ':' + key in modifications) || modifications[site.key + ':' + key]"
-                @change="changeSetting($event, site.key + ':' + key)">
-              {{ option.name }}
-            </label>
-          </li>
-        </ul>
+        <Transition>
+          <ul v-show="!(site.key in modifications) || modifications[site.key]">
+            <li class="option" v-for="(option, key) in site.options" :key="key">
+              <label>
+                <input type="checkbox"
+                  :checked="!(site.key + ':' + key in modifications) || modifications[site.key + ':' + key]"
+                  @change="changeSetting($event, site.key + ':' + key)">
+                {{ option.name }}
+              </label>
+            </li>
+          </ul>
+        </Transition>
       </ul>
+    </div>
+
+    <div class="card">
+      <a href="https://github.com/Loafer19/purify" target="_blank">Github Page</a>
     </div>
   </main>
 </template>

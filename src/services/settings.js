@@ -7,7 +7,7 @@ export default reactive({
       key: 'chess',
       options: {
         hideAds: {
-          name: 'Hide Ad\'s',
+          name: 'Hide Ads',
           code: () => {
             document.querySelectorAll('[class*=\'-ad\'').forEach(e => e.remove())
             document.getElementById('checkmate').remove()

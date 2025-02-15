@@ -11,25 +11,27 @@ Purify is a browser extension that helps you to focus on the content you are rea
 
 several sites have already been optimized for a minimalist experience
 
+![settings](./.github/screenshots/settings.jpg)
+
 ### Neat versions of sites
 
 #### chess.com
 
 - removed ads
 
-![chess.com](./.github/screenshots/chess.com.jpg)
+![chess.com](./.github/screenshots/sites/chess.com.jpg)
 
 #### youtube.com
 
 - removed useless blocks and few buttons
 
-![youtube.com](./.github/screenshots/youtube.com.jpg)
+![youtube.com](./.github/screenshots/sites/youtube.com.jpg)
 
 #### x.com
 
 - removed useless buttons
 
-![x.com](./.github/screenshots/x.com.jpg)
+![x.com](./.github/screenshots/sites/x.com.jpg)
 
 
 ## Project Setup
