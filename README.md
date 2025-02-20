@@ -59,9 +59,3 @@ Be ready to upload your extension
 ```sh
 bun run build
 ```
-
-Improve code quality
-
-```sh
-bun run check
-```

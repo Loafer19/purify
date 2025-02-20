@@ -5,16 +5,14 @@
   "description": "Web extension that brings clarity to websites",
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
-    "eslint": "^9.17.0",
     "vite": "^6.0.1",
     "vite-plugin-web-extension": "^4.3.1"
   },
   "name": "purify",
   "scripts": {
     "build": "vite build",
-    "check": "eslint --fix",
     "dev": "vite"
   },
   "type": "module",
-  "version": "0.6.0"
+  "version": "0.6.1"
 }

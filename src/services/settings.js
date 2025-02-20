@@ -2,6 +2,25 @@ import { reactive } from 'vue'
 
 export default reactive({
   sites: {
+    'binomo.com': {
+      name: 'Binomo',
+      key: 'binomo',
+      options: {
+        addKeyboardSupport: {
+          name: 'Add keyboard support',
+          code: () => {
+            const controls = {
+              'ArrowUp': () => document.getElementById('qa_trading_dealUpButton').click(),
+              'ArrowDown': () => document.getElementById('qa_trading_dealDownButton').click(),
+              'ArrowLeft': () => document.querySelectorAll('.input-counters vui-button')[0].click(),
+              'ArrowRight': () => document.querySelectorAll('.input-counters vui-button')[1].click()
+            }
+
+            document.addEventListener('keydown', (e) => controls[e.key]())
+          }
+        }
+      }
+    },
     'www.chess.com': {
       name: 'Chess.com',
       key: 'chess',
