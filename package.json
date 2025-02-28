@@ -1,18 +1,20 @@
 {
-  "dependencies": {
-    "vue": "^3.5.13"
-  },
-  "description": "Web extension that brings clarity to websites",
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.1",
-    "vite": "^6.0.1",
-    "vite-plugin-web-extension": "^4.3.1"
-  },
-  "name": "purify",
-  "scripts": {
-    "build": "vite build",
-    "dev": "vite"
-  },
-  "type": "module",
-  "version": "0.6.1"
+    "dependencies": {
+        "vue": "^3.5.13"
+    },
+    "description": "Web extension that brings clarity to websites",
+    "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "@vitejs/plugin-vue": "^5.2.1",
+        "vite": "^6.0.1",
+        "vite-plugin-web-extension": "^4.3.1"
+    },
+    "name": "purify",
+    "scripts": {
+        "build": "vite build",
+        "check": "biome check --write .",
+        "dev": "vite"
+    },
+    "type": "module",
+    "version": "0.6.1"
 }

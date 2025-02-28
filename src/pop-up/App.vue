@@ -1,17 +1,17 @@
 <script setup>
-import { reactive } from 'vue'
 import settings from '@/services/settings.js'
+import { reactive } from 'vue'
 
-let modifications = reactive({})
+const modifications = reactive({})
 
 chrome.storage.sync.get('modifications').then((data) => {
-  Object.assign(modifications, data.modifications || {})
+    Object.assign(modifications, data.modifications || {})
 })
 
 const changeSetting = (event, key) => {
-  modifications[key] = event.target.checked
+    modifications[key] = event.target.checked
 
-  chrome.storage.sync.set({ modifications: modifications })
+    chrome.storage.sync.set({ modifications: modifications })
 }
 </script>
 
