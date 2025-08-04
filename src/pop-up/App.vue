@@ -1,11 +1,13 @@
 <script setup>
 import settings from '@/services/settings.js'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
+const isLoaded = ref(false)
 const modifications = reactive({})
 
 chrome.storage.sync.get('modifications').then((data) => {
     Object.assign(modifications, data.modifications || {})
+    isLoaded.value = true
 })
 
 const changeSetting = (event, key) => {
@@ -18,10 +20,10 @@ const changeSetting = (event, key) => {
 <template>
   <main>
     <div class="card">
-      <h1>Purify - Settings</h1>
+      <h2>Purify - Settings</h2>
     </div>
 
-    <div class="card">
+    <div v-if="isLoaded" class="card">
       <ul class="site" v-for="(site) in settings.sites">
         <li>
           <label>
@@ -46,7 +48,7 @@ const changeSetting = (event, key) => {
     </div>
 
     <div class="card">
-      <a href="https://github.com/Loafer19/purify" target="_blank">Github Page</a>
+      <a href="https://github.com/Loafer19/purify" target="_blank">Github</a>
     </div>
   </main>
 </template>

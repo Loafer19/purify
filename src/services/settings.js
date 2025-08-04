@@ -62,25 +62,58 @@ export default reactive({
             name: 'X - Twitter',
             key: 'x',
             options: {
-                hideUseless: {
-                    name: 'Hide Useless',
+                hideNavigation: {
+                    name: 'Hide Navigation Items',
                     code: () => {
-                        const style = document.createElement('style')
-                        style.innerHTML = `
-                            [href="/explore"],
-                            [href="/jobs"],
-                            [href="/i/verified-orgs-signup"],
-                            [href="/i/premium_sign_up"],
-                            [href="/compose/post"],
-                            [data-testid="SideNav_AccountSwitcher_Button"],
-                            [data-testid="GrokDrawer"] {
-                                display: none !important;
-                            }
-                        `
-                        document.head.appendChild(style)
-
-                        document.querySelectorAll("[role='complementary']").forEach((e) => e.parentElement?.remove())
-                        document.querySelector("[href='https://x.com/tos']")?.parentElement?.parentElement?.remove()
+                        const style = document.getElementById('purify-css')
+                        style.innerHTML =
+                            style.innerHTML +
+                            `
+                                div:has(> h1[role="heading"]),
+                                [href="/explore"],
+                                [href="/jobs"],
+                                [aria-label="Спільноти"],
+                                [aria-label="Communities"],
+                                [href="/compose/post"],
+                                [data-testid="AppTabBar_More_Menu"] {
+                                    display: none !important;
+                                }
+                            `
+                    },
+                },
+                hidePremiumPrompts: {
+                    name: 'Hide Premium Prompts',
+                    code: () => {
+                        const style = document.getElementById('purify-css')
+                        style.innerHTML =
+                            style.innerHTML +
+                            `
+                                [href="/i/premium_sign_up"],
+                                [href="/i/premium"],
+                                [href="/i/verified-orgs-signup"],
+                                [aria-label="Списки"],
+                                [aria-label="Lists"],
+                                [href="/compose/articles"],
+                                [data-testid="SideNav_AccountSwitcher_Button"] {
+                                    display: none !important;
+                                }
+                            `
+                    },
+                },
+                hideGrok: {
+                    name: 'Hide Grok',
+                    code: () => {
+                        const style = document.getElementById('purify-css')
+                        style.innerHTML =
+                            style.innerHTML +
+                            `
+                                div:has(> [role="complementary"]),
+                                [aria-label="Нижній колонтитул"],
+                                [href="/i/grok"],
+                                [data-testid="GrokDrawer"] {
+                                    display: none !important;
+                                }
+                            `
                     },
                 },
             },

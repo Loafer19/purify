@@ -6,6 +6,10 @@ const site = settings.sites[url]
 if (site) {
     console.log('Site to Purify:', url)
 
+    const styleElement = document.createElement('style')
+    styleElement.id = 'purify-css'
+    document.head.appendChild(styleElement)
+
     chrome.storage.sync.get('modifications').then((data) => {
         const modifications = data.modifications || {}
 
@@ -19,7 +23,7 @@ if (site) {
                     try {
                         option.code()
                     } catch (error) {
-                        console.error('Error:', error)
+                        console.error('Error applying option:', option.name, error)
                     }
                 }
             }
