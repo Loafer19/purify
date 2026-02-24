@@ -8,7 +8,7 @@
         }
     },
     "files": {
-        "ignore": ["dist"]
+        "includes": ["**", "!dist/**"]
     },
     "formatter": {
         "enabled": true,
@@ -32,5 +32,18 @@
                 "noForEach": "off"
             }
         }
-    }
+    },
+    "overrides": [
+        {
+            "includes": ["**/*.vue"],
+            "linter": {
+                "rules": {
+                    "correctness": {
+                        "noUnusedImports": "off",
+                        "noUnusedVariables": "off"
+                    }
+                }
+            }
+        }
+    ]
 }

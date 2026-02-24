@@ -1,14 +1,22 @@
-body {
-    min-width: 450px;
-    margin: 0;
-    padding: 1.5rem;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.3rem;
-    color: lightgrey;
-    background: #111;
+:root {
+    --bg: #111;
+    --bg-card: #1e1e1e;
+    --text: #d4d4d4;
+    --text-muted: #777;
+    --accent: #4b8eff;
+    --border: #2a2a2a;
 }
 
-h1,
+body {
+    min-width: 380px;
+    margin: 0;
+    padding: 1.25rem;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--bg);
+}
+
 h2,
 p,
 ul {
@@ -16,7 +24,7 @@ ul {
 }
 
 ul {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     padding-left: 0;
     list-style: none;
 }
@@ -26,127 +34,59 @@ ul:last-child {
 }
 
 ul > ul {
-    padding-left: 1.5rem;
+    padding-left: 1.25rem;
 }
 
 label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     cursor: pointer;
 }
 
 input[type="checkbox"] {
     appearance: none;
-    display: inline-flex;
-    border: 0.2rem solid lightgrey;
-    border-radius: 0.5rem;
+    flex-shrink: 0;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 0.15rem solid #555;
+    border-radius: 0.35rem;
     cursor: pointer;
+    position: relative;
+    transition:
+        border-color 150ms,
+        background-color 150ms;
 }
 
-input[type="checkbox"]::before {
+input[type="checkbox"]::after {
     content: "";
-    width: 1rem;
-    height: 1rem;
-    clip-path: polygon(
-        45.266% 83.877%,
-        45.266% 83.877%,
-        43.827% 85.102%,
-        42.252% 86.054%,
-        40.576% 86.734%,
-        38.832% 87.142%,
-        37.054% 87.278%,
-        35.276% 87.142%,
-        33.533% 86.734%,
-        31.857% 86.054%,
-        30.283% 85.102%,
-        28.844% 83.877%,
-        3.4% 58.433%,
-        3.4% 58.433%,
-        2.176% 56.995%,
-        1.224% 55.42%,
-        0.544% 53.745%,
-        0.136% 52.001%,
-        0% 50.223%,
-        0.136% 48.446%,
-        0.544% 46.702%,
-        1.224% 45.026%,
-        2.176% 43.452%,
-        3.4% 42.013%,
-        3.4% 42.013%,
-        4.839% 40.789%,
-        6.413% 39.837%,
-        8.089% 39.157%,
-        9.833% 38.749%,
-        11.611% 38.613%,
-        13.388% 38.749%,
-        15.132% 39.157%,
-        16.808% 39.837%,
-        18.383% 40.789%,
-        19.822% 42.013%,
-        34.982% 57.171%,
-        34.982% 57.171%,
-        35.345% 57.479%,
-        35.743% 57.719%,
-        36.166% 57.89%,
-        36.606% 57.993%,
-        37.055% 58.027%,
-        37.504% 57.993%,
-        37.945% 57.89%,
-        38.369% 57.719%,
-        38.767% 57.479%,
-        39.13% 57.171%,
-        80.178% 16.123%,
-        80.178% 16.123%,
-        81.616% 14.898%,
-        83.19% 13.946%,
-        84.866% 13.266%,
-        86.61% 12.858%,
-        88.388% 12.722%,
-        90.166% 12.858%,
-        91.91% 13.266%,
-        93.586% 13.946%,
-        95.16% 14.898%,
-        96.6% 16.123%,
-        96.6% 16.123%,
-        97.224% 16.798%,
-        97.789% 17.517%,
-        98.294% 18.274%,
-        98.737% 19.066%,
-        99.116% 19.889%,
-        99.43% 20.74%,
-        99.677% 21.613%,
-        99.855% 22.506%,
-        99.964% 23.413%,
-        100% 24.333%,
-        100% 24.333%,
-        99.964% 25.252%,
-        99.855% 26.16%,
-        99.677% 27.052%,
-        99.43% 27.926%,
-        99.116% 28.776%,
-        98.737% 29.599%,
-        98.294% 30.391%,
-        97.789% 31.148%,
-        97.224% 31.867%,
-        96.6% 32.543%,
-        45.266% 83.877%
-    );
+    position: absolute;
+    inset: 0.1rem;
+    display: block;
+    background-color: var(--accent);
+    border-radius: 0.15rem;
     transform: scale(0);
-    background-color: lightgrey;
-    transition: transform 100ms;
+    transition: transform 120ms ease;
 }
 
-input[type="checkbox"]:checked::before {
+input[type="checkbox"]:checked {
+    border-color: var(--accent);
+}
+
+input[type="checkbox"]:checked::after {
     transform: scale(1);
 }
 
 input[type="checkbox"]:hover {
-    background-color: #111;
+    border-color: var(--accent);
 }
 
 .card {
-    margin-bottom: 1.5rem;
-    padding: 1rem 1.5rem;
-    background: #333;
-    border-radius: 1rem;
+    margin-bottom: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
     user-select: none;
 }
 
@@ -155,7 +95,31 @@ input[type="checkbox"]:hover {
 }
 
 .card a {
-    color: lightgrey;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 150ms;
+}
+
+.card a:hover {
+    color: var(--accent);
+}
+
+.header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.header span {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.footer {
+    text-align: center;
+    font-size: 0.85rem;
 }
 
 .v-enter-active,

@@ -1,6 +1,7 @@
 <script setup>
-import settings from '@/services/settings.js'
 import { reactive, ref } from 'vue'
+import settings from '@/services/settings.js'
+import SiteCard from './components/SiteCard.vue'
 
 const isLoaded = ref(false)
 const modifications = reactive({})
@@ -13,44 +14,32 @@ chrome.storage.sync.get('modifications').then((data) => {
 const changeSetting = (event, key) => {
     modifications[key] = event.target.checked
 
-    chrome.storage.sync.set({ modifications: modifications })
+    chrome.storage.sync.set({ modifications })
 }
 </script>
 
 <template>
   <main>
-    <div class="card">
-      <h2>Purify - Settings</h2>
+    <div class="card header">
+      <h2>Purify</h2>
+      <span>Bringing clarity to websites</span>
     </div>
 
     <div v-if="isLoaded" class="card">
-      <ul class="site" v-for="(site) in settings.sites">
-        <li>
-          <label>
-            <input type="checkbox" :checked="!(site.key in modifications) || modifications[site.key]"
-              @change="changeSetting($event, site.key)">
-            {{ site.name }}
-          </label>
-        </li>
-        <Transition>
-          <ul v-show="!(site.key in modifications) || modifications[site.key]">
-            <li class="option" v-for="(option, key) in site.options" :key="key">
-              <label>
-                <input type="checkbox"
-                  :checked="!(site.key + ':' + key in modifications) || modifications[site.key + ':' + key]"
-                  @change="changeSetting($event, site.key + ':' + key)">
-                {{ option.name }}
-              </label>
-            </li>
-          </ul>
-        </Transition>
-      </ul>
+      <SiteCard
+        v-for="site in settings.sites"
+        :key="site.key"
+        :site="site"
+        :modifications="modifications"
+        @change="changeSetting"
+      />
     </div>
 
-    <div class="card">
-      <a href="https://github.com/Loafer19/purify" target="_blank">Github</a>
+    <div class="card footer">
+      <a href="https://github.com/Loafer19/purify" target="_blank">GitHub</a>
     </div>
   </main>
 </template>
 
 <style scoped></style>
+
