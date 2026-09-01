@@ -1,5 +1,6 @@
 import '@/assets/main.css'
 import { createApp } from 'vue'
-import PopUp from '@/pop-up/App.vue'
+import Skeleton from '@/pop-up/App.vue'
+import router from '@/router'
 
-createApp(PopUp).mount('body')
+createApp(Skeleton).use(router).mount('#app')

@@ -1,32 +1,49 @@
-import settings from '@/services/settings.js'
+import { findSite } from '@/services/settings.js'
 
 const url = window.location.hostname
-const site = settings.sites[url]
+const site = findSite(url)
 
-if (site) {
-    console.log('Site to Purify:', url)
+function ensurePurifyStyle() {
+    let styleElement = document.getElementById('purify-css')
+    if (!styleElement) {
+        styleElement = document.createElement('style')
+        styleElement.id = 'purify-css'
+        document.head.appendChild(styleElement)
+    }
+    return styleElement
+}
 
-    const styleElement = document.createElement('style')
-    styleElement.id = 'purify-css'
-    document.head.appendChild(styleElement)
+function applyEnabledOptions(modifications) {
+    const styleElement = ensurePurifyStyle()
+    styleElement.textContent = ''
 
-    chrome.storage.sync.get('modifications').then((data) => {
-        const modifications = data.modifications || {}
+    // Site master off: clear CSS only; removed DOM nodes need a reload to return.
+    if (site.key in modifications && !modifications[site.key]) {
+        return
+    }
 
-        if (!(site.key in modifications) || modifications[site.key]) {
-            for (let [key, option] of Object.entries(site.options)) {
-                key = site.key + ':' + key
+    for (let [key, option] of Object.entries(site.options)) {
+        key = site.key + ':' + key
 
-                if (!(key in modifications) || modifications[key]) {
-                    console.log('Applying option:', option.name)
-
-                    try {
-                        option.code()
-                    } catch (error) {
-                        console.error('Error applying option:', option.name, error)
-                    }
-                }
+        if (!(key in modifications) || modifications[key]) {
+            try {
+                option.code()
+            } catch (error) {
+                console.error('Error applying option:', option.name, error)
             }
         }
+    }
+}
+
+if (site) {
+    ensurePurifyStyle()
+
+    chrome.storage.sync.get('modifications').then((data) => {
+        applyEnabledOptions(data.modifications || {})
+    })
+
+    chrome.storage.onChanged.addListener((changes, areaName) => {
+        if (areaName !== 'sync' || !changes.modifications) return
+        applyEnabledOptions(changes.modifications.newValue || {})
     })
 }
