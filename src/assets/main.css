@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui" {
+    /* No forced default — early script + ThemeToggle follow prefers-color-scheme. */
     themes:
-        light --default,
+        light,
         dark --prefersdark;
 }
 

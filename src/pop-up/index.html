@@ -5,6 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Purify - Settings</title>
+  <script>
+    // Paint system theme before Vue mounts (avoid light flash).
+    document.documentElement.setAttribute(
+      'data-theme',
+      window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    )
+  </script>
   <script type="module" src="/src/pop-up/main.js"></script>
 </head>
 

@@ -67,18 +67,5 @@ const openSite = (key) => {
         </ul>
       </div>
     </div>
-
-    <div class="card border-base-300 bg-base-100 border shadow-sm">
-      <div class="card-body items-center p-3">
-        <a
-          href="https://github.com/Loafer19/purify"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link link-hover text-sm"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
   </div>
 </template>

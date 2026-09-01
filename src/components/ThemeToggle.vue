@@ -1,30 +1,60 @@
 <script setup>
 import { Moon, Sun } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
-import { storageGet, storageSet } from '@/services/storage'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { storageGet, storageRemove, storageSet } from '@/services/storage'
 
 const theme = ref('light')
+/** User picked light/dark; when false we follow the OS. */
+const manual = ref(false)
+
+let media = null
 
 const systemTheme = () => (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
 
-const applyTheme = (value, persist = true) => {
+const paint = (value) => {
     theme.value = value
     document.documentElement.setAttribute('data-theme', value)
+}
 
-    if (persist) {
-        storageSet({ theme: value })
+const applySystem = () => {
+    manual.value = false
+    paint(systemTheme())
+}
+
+const applyManual = async (value) => {
+    manual.value = true
+    paint(value)
+    await storageSet({ theme: value })
+}
+
+const toggle = async () => {
+    const next = theme.value === 'dark' ? 'light' : 'dark'
+    await applyManual(next)
+}
+
+const onSystemChange = () => {
+    if (!manual.value) {
+        paint(systemTheme())
     }
 }
 
-const toggle = () => {
-    applyTheme(theme.value === 'dark' ? 'light' : 'dark')
-}
-
 onMounted(async () => {
-    applyTheme(systemTheme(), false)
+    media = window.matchMedia('(prefers-color-scheme: dark)')
+    media.addEventListener('change', onSystemChange)
 
     const result = await storageGet(['theme'])
-    applyTheme(result.theme || systemTheme(), false)
+    if (result.theme === 'light' || result.theme === 'dark') {
+        await applyManual(result.theme)
+        return
+    }
+
+    // No saved choice — stay on system (and clear stale values).
+    await storageRemove(['theme'])
+    applySystem()
+})
+
+onUnmounted(() => {
+    media?.removeEventListener('change', onSystemChange)
 })
 </script>
 
