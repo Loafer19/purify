@@ -37,3 +37,11 @@ The popup lists supported sites; open a site to drill down into its options.
 - removed useless buttons
 
 ![x.com](./.github/screenshots/sites/x.com.jpg)
+
+#### twitch.tv
+
+- hide recommended shelves / sidebar suggestions
+- hide Prime, Bits, and gift promos
+- optional extra chrome (stories, cheer, upcoming)
+
+![twitch.tv](./.github/screenshots/sites/twitch.tv.jpg)

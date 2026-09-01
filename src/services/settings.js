@@ -150,6 +150,128 @@ const sites = {
             },
         },
     },
+    'www.twitch.tv': {
+        name: 'Twitch',
+        key: 'twitch',
+        hosts: ['www.twitch.tv', 'twitch.tv', 'm.twitch.tv'],
+        description:
+            'Cuts recommendation shelves and promo chrome so browsing and watching stay focused on the stream.',
+        highlights: [
+            'Hide sidebar / home recommendations + Viewers Also Watch',
+            'Hide Prime (and the red count pill), Bits, and gift upsells',
+            'Optional stream chrome: share, cheer, pinned notices, goals',
+        ],
+        screenshot: 'screenshots/twitch.tv.jpg',
+        options: {
+            hideRecommended: {
+                name: 'Hide Recommended',
+                hint: 'Sidebar recommendations, “Viewers Also Watch”, and home shelves',
+                code: () => {
+                    const style = document.getElementById('purify-css')
+                    style.innerHTML =
+                        style.innerHTML +
+                        `
+                                [aria-label="Recommended Channels"],
+                                [aria-label="Recommended Categories"],
+                                [aria-label="Recommended Live Channels"],
+                                [aria-label*="Recommended Channels"],
+                                [aria-label*="Recommended Categories"] {
+                                    display: none !important;
+                                }
+                            `
+
+                    // Guest "Live Channels" + stream-page "Viewers Also Watch".
+                    document
+                        .querySelectorAll('nav[aria-label="Left Navigation"] h3, .side-nav-section h3')
+                        .forEach((h) => {
+                            const text = (h.textContent || '').trim()
+                            if (/^(live channels|recommended)/i.test(text) || /viewers also watch/i.test(text)) {
+                                const section = h.closest('.side-nav-section') || h.parentElement
+                                section?.style.setProperty('display', 'none', 'important')
+                            }
+                        })
+
+                    // Home shelves titled “…we think you’ll like”.
+                    document.querySelectorAll('h2').forEach((h) => {
+                        if (!/we think you/i.test(h.textContent || '')) return
+                        let node = h.parentElement
+                        for (let i = 0; i < 6 && node; i++) {
+                            const categoryLinks = node.querySelectorAll("a[href*='/directory/category/']").length
+                            if (categoryLinks >= 3) {
+                                node.style.setProperty('display', 'none', 'important')
+                                break
+                            }
+                            node = node.parentElement
+                        }
+                    })
+                },
+            },
+            hidePromos: {
+                name: 'Hide Promos',
+                hint: 'Prime offers (and the red count pill), Bits, gift, sticky upsells',
+                code: () => {
+                    const style = document.getElementById('purify-css')
+                    style.innerHTML =
+                        style.innerHTML +
+                        `
+                                .prime-offers,
+                                .prime-offers__pill,
+                                button[data-a-target="prime-offers-icon"],
+                                button[aria-label="Prime offers"],
+                                button[data-a-target="top-nav-get-bits-button"],
+                                button[data-a-target="gift-button"],
+                                button[aria-label="Gift a Sub"],
+                                button[data-a-target="bits-button"],
+                                [aria-label="Bits and Points Balances"],
+                                footer#twilight-sticky-footer-root,
+                                .tc-upsell,
+                                .tc-upsell__title,
+                                .tc-upsell__button,
+                                div[aria-label="Gift sub discount promotion"],
+                                div:has(> .subtember-gradient),
+                                .subtember-gradient {
+                                    display: none !important;
+                                }
+                            `
+                },
+            },
+            hideExtraChrome: {
+                name: 'Hide Extra Chrome',
+                hint: 'Stream share/cheer, pinned notices, stories, upcoming, leaderboards',
+                code: () => {
+                    const style = document.getElementById('purify-css')
+                    style.innerHTML =
+                        style.innerHTML +
+                        `
+                                [class*="storiesLeftNav"],
+                                button[data-a-target="share-button"],
+                                button[aria-label="Share"],
+                                button[aria-label="Cheer"],
+                                button[aria-label*="Leaderboard"],
+                                [aria-label*="Gifters Leaderboard"],
+                                .happening-now-notification,
+                                .extensions-notifications,
+                                header[aria-label="Upcoming Streams"],
+                                h2[data-a-target="upcoming-streams-header"],
+                                header:has(h2[data-a-target="upcoming-streams-header"]),
+                                div[data-test-selector="channel-skins-shared-above-chat-v3"],
+                                div:has(> button[aria-label="BONUS SUBS"]),
+                                div:has(> div > div > button[aria-label="Previous leaderboard set"]),
+                                div:has(> div > div > button[aria-label="Next leaderboard set"]) {
+                                    display: none !important;
+                                }
+                            `
+
+                    // Channel goal trackers under About (follow/sub counters).
+                    document.querySelectorAll('h3').forEach((h) => {
+                        if (!/goals?/i.test(h.textContent || '')) return
+                        const panel = h.closest('[class*="about"], section, div')
+                        panel?.style.setProperty('display', 'none', 'important')
+                    })
+                },
+            },
+        },
+    },
 }
 
 export function findSite(hostname) {
