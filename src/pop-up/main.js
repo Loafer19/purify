@@ -1,3 +1,4 @@
+import './theme-init.js'
 import '@/assets/main.css'
 import { createApp } from 'vue'
 import Skeleton from '@/pop-up/App.vue'

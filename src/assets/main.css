@@ -14,16 +14,33 @@
     --radius-selector: 0.75rem;
 }
 
-/* popup ~420px; options tab can grow up to 42rem without horizontal scroll */
+/*
+ * Chrome toolbar popups collapse without an explicit width.
+ * Fixed height + overflow hidden: Shell pins the header; main column scrolls.
+ * Options tab (wider) can use the viewport height.
+ */
 html,
 body,
 #app {
     box-sizing: border-box;
-    width: 100%;
+    width: 420px;
+    min-width: 420px;
     max-width: min(100vw, 42rem);
+    height: 560px;
     min-height: 560px;
     margin: 0;
-    overflow-x: hidden;
+    overflow: hidden;
+}
+
+@media (min-width: 480px) {
+    html,
+    body,
+    #app {
+        width: 100%;
+        min-width: 0;
+        height: 100vh;
+        min-height: 100vh;
+    }
 }
 
 *,
@@ -36,4 +53,36 @@ body,
 body,
 #app {
     @apply bg-base-200;
+}
+
+/* Light theme: greyer page chrome so white cards separate more clearly. */
+[data-theme="light"] {
+    --color-base-200: oklch(93.5% 0.004 286);
+    --color-base-300: oklch(89% 0.005 286);
+}
+
+/* Thin inset scrollbar — only visible when the column actually overflows (options tab often won't). */
+.purify-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--color-base-content) 28%, transparent) transparent;
+}
+
+.purify-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.purify-scroll::-webkit-scrollbar-track {
+    background: transparent;
+    margin-block: 0.35rem;
+}
+
+.purify-scroll::-webkit-scrollbar-thumb {
+    background-color: color-mix(in oklab, var(--color-base-content) 28%, transparent);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: padding-box;
+}
+
+.purify-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in oklab, var(--color-base-content) 45%, transparent);
 }

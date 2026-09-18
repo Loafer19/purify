@@ -35,7 +35,7 @@ const onToggle = async (key, event) => {
 </script>
 
 <template>
-  <div v-if="!site" class="card border-base-300 bg-base-100 border shadow-sm">
+  <div v-if="!site" class="card border-base-300 bg-base-100 border">
     <div class="card-body gap-3 p-4">
       <div class="flex items-center gap-2">
         <RouterLink :to="{ name: 'home' }" class="btn btn-ghost btn-sm btn-square" aria-label="Back">
@@ -48,7 +48,7 @@ const onToggle = async (key, event) => {
     </div>
   </div>
 
-  <div v-else-if="isLoaded" class="card border-base-300 bg-base-100 border shadow-sm">
+  <div v-else-if="isLoaded" class="card border-base-300 bg-base-100 border">
     <div class="card-body gap-4 p-4">
       <div class="flex items-center gap-2">
         <RouterLink :to="{ name: 'home' }" class="btn btn-ghost btn-sm btn-square" aria-label="Back">
@@ -63,8 +63,12 @@ const onToggle = async (key, event) => {
 
       <p class="text-base-content/80 text-sm leading-relaxed">{{ site.description }}</p>
 
-      <ul v-if="site.highlights?.length" class="flex flex-wrap gap-1.5">
-        <li v-for="(item, i) in site.highlights" :key="i" class="badge badge-soft badge-sm">
+      <ul v-if="site.highlights?.length" class="flex w-full min-w-0 flex-wrap gap-1.5">
+        <li
+          v-for="(item, i) in site.highlights"
+          :key="i"
+          class="badge badge-soft badge-sm h-auto max-w-full whitespace-normal px-2.5 py-1 text-left leading-snug"
+        >
           {{ item }}
         </li>
       </ul>

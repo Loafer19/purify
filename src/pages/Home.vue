@@ -27,7 +27,7 @@ const openSite = (key) => {
 
 <template>
   <div class="flex w-full min-w-0 flex-col gap-3">
-    <div v-if="isLoaded" class="card border-base-300 bg-base-100 w-full min-w-0 overflow-hidden border shadow-sm">
+    <div v-if="isLoaded" class="card border-base-300 bg-base-100 w-full min-w-0 overflow-hidden border">
       <div class="card-body w-full min-w-0 gap-1 overflow-hidden p-2">
         <p class="text-base-content/60 px-2 pt-1 text-sm">Bringing clarity to websites</p>
 
