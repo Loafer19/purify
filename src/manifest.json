@@ -18,5 +18,5 @@
         "open_in_tab": true,
         "page": "src/pop-up/index.html"
     },
-    "permissions": ["storage"]
+    "permissions": ["storage", "activeTab"]
 }

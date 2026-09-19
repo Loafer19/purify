@@ -1,13 +1,24 @@
 <script setup>
 import { ArrowLeft } from 'lucide-vue-next'
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { isEnabled, loadModifications, setModification } from '@/services/modifications.js'
+import {
+    CUSTOM_CSS_SOFT_LIMIT,
+    isEnabled,
+    loadCustomCss,
+    loadModifications,
+    saveCustomCss,
+    setModification,
+} from '@/services/modifications.js'
 import { sitesList } from '@/services/settings.js'
 
 const route = useRoute()
 const isLoaded = ref(false)
 const modifications = reactive({})
+const customCss = ref('')
+const cssStatus = ref('')
+const cssError = ref('')
+let saveTimer = null
 
 const site = computed(() => sitesList().find((s) => s.key === route.params.key))
 
@@ -24,13 +35,61 @@ const options = computed(() => {
     }))
 })
 
-onMounted(async () => {
+const cssBytes = computed(() => new TextEncoder().encode(customCss.value || '').length)
+const cssNearLimit = computed(() => cssBytes.value >= CUSTOM_CSS_SOFT_LIMIT)
+
+async function hydrate(siteKey) {
     Object.assign(modifications, await loadModifications())
+    customCss.value = await loadCustomCss(siteKey)
+    cssStatus.value = ''
+    cssError.value = ''
     isLoaded.value = true
+}
+
+onMounted(async () => {
+    if (site.value) await hydrate(site.value.key)
+    else isLoaded.value = true
+})
+
+watch(
+    () => route.params.key,
+    async (key) => {
+        if (!key) return
+        isLoaded.value = false
+        if (saveTimer) {
+            clearTimeout(saveTimer)
+            saveTimer = null
+        }
+        await hydrate(String(key))
+    },
+)
+
+onBeforeUnmount(() => {
+    if (saveTimer) clearTimeout(saveTimer)
 })
 
 const onToggle = async (key, event) => {
     await setModification(modifications, key, event.target.checked)
+}
+
+const onCssInput = () => {
+    cssStatus.value = 'Saving…'
+    cssError.value = ''
+    if (saveTimer) clearTimeout(saveTimer)
+    saveTimer = setTimeout(async () => {
+        if (!site.value) return
+        try {
+            await saveCustomCss(site.value.key, customCss.value)
+            cssStatus.value = customCss.value.trim() ? 'Saved (syncs with Chrome)' : 'Cleared'
+        } catch (error) {
+            cssStatus.value = ''
+            cssError.value =
+                error?.message?.includes('QUOTA') || error?.message?.includes('quota')
+                    ? 'Sync quota exceeded — shorten the CSS (max ~8 KB per site).'
+                    : 'Could not save custom CSS.'
+            console.error(error)
+        }
+    }, 450)
 }
 </script>
 
@@ -101,6 +160,26 @@ const onToggle = async (key, event) => {
           </label>
         </li>
       </ul>
+
+      <div class="divider my-0 text-xs">Custom CSS</div>
+
+      <div class="flex flex-col gap-2" :class="{ 'pointer-events-none opacity-50': !siteEnabled }">
+        <p class="text-base-content/50 text-xs leading-snug">
+          Extra CSS for this site, applied after built-in rules. Syncs with your Chrome account (~8 KB max per site).
+        </p>
+        <textarea
+          v-model="customCss"
+          class="textarea textarea-bordered font-mono text-xs leading-snug min-h-28 w-full"
+          placeholder=".annoying-banner { display: none !important; }"
+          spellcheck="false"
+          @input="onCssInput"
+        />
+        <div class="text-base-content/50 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+          <span :class="{ 'text-warning': cssNearLimit }">{{ cssBytes }} / 8192 bytes</span>
+          <span v-if="cssStatus" class="text-success">{{ cssStatus }}</span>
+          <span v-if="cssError" class="text-error">{{ cssError }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
